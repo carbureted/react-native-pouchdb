@@ -1,0 +1,11 @@
+{
+  "name": "react-native-pouchdb",
+  "version": "0.0.1",
+  "description": "Run pouchdb in React Native!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Eason Goodale <eason.goodale@gmail.com>",
+  "license": "ISC"
+}
