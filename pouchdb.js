@@ -1,4 +1,4 @@
-// PouchDB 5.3.0
+// PouchDB 5.3.1
 // 
 // (c) 2012-2016 Dale Harvey and the PouchDB team
 // PouchDB may be freely distributed under the Apache license, version 2.0.
@@ -5528,11 +5528,7 @@ function testXhr() {
 var hasXhr = testXhr();
 
 function ajax$1(options, callback) {
-  if ((hasXhr || options.xhr) && !isReactNative()) {
-    return xhRequest(options, callback);
-  } else {
-    return fetchRequest(options, callback);
-  }
+  return fetchRequest(options, callback);
 }
 
 // the blob already has a type; do nothing
@@ -13160,6 +13156,9 @@ function WebSqlPouch(opts, callback) {
   };
 }
 
+// in the browser, use a prefix. in Node, don't bother having one
+WebSqlPouch.use_prefix = !!(typeof process === 'undefined' || process.browser);
+
 WebSqlPouch.valid = valid;
 
 var adapters = {
@@ -13172,7 +13171,7 @@ PouchDB.utils = utils;
 PouchDB.Errors = allErrors;
 PouchDB.replicate = replication.replicate;
 PouchDB.sync = sync;
-PouchDB.version = '5.3.0'; // will be automatically supplied by build.sh
+PouchDB.version = '5.3.1'; // will be automatically supplied by build.sh
 PouchDB.adapter('http', HttpPouch);
 PouchDB.adapter('https', HttpPouch);
 
@@ -13186,33 +13185,6 @@ module.exports = PouchDB;
 }).call(this,_dereq_(13),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"1":1,"10":10,"12":12,"13":13,"14":14,"15":15,"16":16,"2":2,"4":4,"6":6,"7":7,"8":8}]},{},[17])(17)
 });
-
-
-// detect ReactNative
-function isReactNative() {
-  try {
-    return navigator.product == "ReactNative"
-  }
-  catch(e) {
-    return false
-  }
-}
-
-// Source: http://code.google.com/p/gflot/source/browse/trunk/flot/base64.js?r=153
-
-/* Copyright (C) 1999 Masanao Izumo <iz@onicos.co.jp>
- * Version: 1.0
- * LastModified: Dec 25 1999
- * This library is free.  You can redistribute it and/or modify it.
- */
-
-/*
- * Interfaces:
- * b64 = base64encode(data);
- * data = base64decode(b64);
- */
-
-(function() {
 
 var base64EncodeChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 var base64DecodeChars = new Array(
@@ -13311,8 +13283,6 @@ function base64decode(str) {
 
 if (!window.btoa) window.btoa = base64encode;
 if (!window.atob) window.atob = base64decode;
-
-})();
 
 /* Blob.js
  * A Blob implementation.
@@ -13525,8 +13495,3 @@ if (!window.atob) window.atob = base64decode;
   };
   view.Blob.prototype = getPrototypeOf(new view.Blob());
 }(typeof self !== "undefined" && self || typeof window !== "undefined" && window || this.content || this));
-
-module.exports = PouchDB$1;
-}).call(this,_dereq_(13),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"1":1,"10":10,"12":12,"13":13,"14":14,"15":15,"16":16,"2":2,"4":4,"6":6,"7":7,"8":8}]},{},[17])(17)
-});
